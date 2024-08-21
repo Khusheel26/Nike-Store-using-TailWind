@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'KAN-104-Workspace-Dev-FE-Branch', credentialsId: '362a03ec-f92e-43ef-b87d-158fecbdbb29', url: 'https://github.com/Octobit8-scm/roadrolls-fe.git'
+                git branch: 'dev-fe', changelog: false, credentialsId: '70ef5427-1490-4d73-b7ad-fd77bb21a57c', poll: false, url: 'https://github.com/Khusheel26/Nike-Store-using-TailWind.git'
             }
         }
         stage('Terraform Init') {
