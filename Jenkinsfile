@@ -11,13 +11,13 @@ pipeline {
         }
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                bat 'terraform init'
             }
         }
         stage('Terraform Apply') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_access_key']]) {
-                    sh 'terraform apply --auto-approve'
+                    bat 'terraform apply --auto-approve'
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('Destroy Infrastructure') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_access_key']]) {
-                    sh 'terraform destroy --auto-approve'
+                    bat 'terraform destroy --auto-approve'
                 }
             }
         }
