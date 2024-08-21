@@ -77,7 +77,7 @@ resource "aws_security_group" "sg_grp" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["specific_ip_or_cidr_block"]  # Replace with specific IP or CIDR block
+    cidr_blocks = ["0.0.0.0/0"]  # Replace with specific IP or CIDR block
   }
 
   # HTTP Ingress Rule
