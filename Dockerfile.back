@@ -1,0 +1,55 @@
+# Working
+# Use a multi-stage build for a smaller final image
+FROM node:20-alpine AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install build dependencies
+RUN apk add --no-cache python3 make g++
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Build the application (if necessary)
+# If your app does not need a build step (like compiling TypeScript, bundling with Webpack, etc.), skip this step.
+# RUN npm run build
+
+# Create production image
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install production dependencies
+RUN apk add --no-cache dumb-init
+
+# Copy necessary files from the builder stage
+# If no build step is required, just copy the source code and dependencies.
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/ .  
+# Copy everything else from the app directory
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Expose the port the app runs on
+EXPOSE $PORT
+
+# Use dumb-init as entrypoint to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Start the application
+CMD ["node", "index.js"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD node healthcheck.js
