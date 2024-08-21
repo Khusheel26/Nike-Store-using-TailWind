@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'KAN-97-Workspace-PROD-FE-Branch', credentialsId: '362a03ec-f92e-43ef-b87d-158fecbdbb29', url: 'https://github.com/Octobit8-scm/roadrolls-fe.git'
+                git branch: 'KAN-96-Workspace-PROD-BE-Branch', credentialsId: '362a03ec-f92e-43ef-b87d-158fecbdbb29', url: 'https://github.com/Octobit8-scm/roadrolls-be.git'
             }
         }
         stage('Terraform Init') {
